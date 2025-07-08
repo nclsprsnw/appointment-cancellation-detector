@@ -97,6 +97,7 @@ if __name__ == "__main__":
             sk_model=model,
             name="appointment_cancellation_detector",
             registered_model_name="appointment_cancellation_detector_RF",
+            input_example=X_train[:5],
             signature=infer_signature(X_train, predictions)
         )
         

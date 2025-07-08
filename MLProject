@@ -3,7 +3,7 @@ name: appointment_cancellation_detector
 
 docker_env:
   # Name of the image we'll be running a container from
-  image: jedha/sample-mlflow-server
+  image: mlflow-server
   # Volume binding
   volumes: ["$(pwd):/home/app"]
   # Set environment variables
