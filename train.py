@@ -24,9 +24,6 @@ if __name__ == "__main__":
     # Time execution
     start_time = time.time()
 
-    # Call mlflow autolog
-    mlflow.sklearn.autolog(log_models=False)  # We won't log models right away
-
     # Parse arguments given in shell script
     parser = argparse.ArgumentParser()
     parser.add_argument("--n_estimators")
