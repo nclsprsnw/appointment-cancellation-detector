@@ -95,7 +95,7 @@ if __name__ == "__main__":
         # Log model seperately to have more flexibility on setup 
         mlflow.sklearn.log_model(
             sk_model=model,
-            artifact_path="appointment_cancellation_detector",
+            name="appointment_cancellation_detector",
             registered_model_name="appointment_cancellation_detector_RF",
             signature=infer_signature(X_train, predictions)
         )
