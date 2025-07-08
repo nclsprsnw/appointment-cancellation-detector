@@ -24,6 +24,9 @@ if __name__ == "__main__":
     # Time execution
     start_time = time.time()
 
+    # Call mlflow autolog
+    mlflow.sklearn.autolog(log_models=False)  # We won't log models right away
+
     # Parse arguments given in shell script
     parser = argparse.ArgumentParser()
     parser.add_argument("--n_estimators")
@@ -35,14 +38,9 @@ if __name__ == "__main__":
         "https://full-stack-assets.s3.eu-west-3.amazonaws.com/Deployment/doctolib_simplified_dataset_01.csv"
     )
 
-    for col in df.columns:
-        if pd.api.types.is_integer_dtype(df[col]):
-            df[col] = df[col].astype(float)
-
     # X, y split
     X = df.iloc[:, 3:-1]
-    y = df.iloc[:, -1].apply(lambda x: 0. if x == "No" else 1.)
-
+    y = df.iloc[:, -1].apply(lambda x: 0 if x == "No" else 1)
 
     # Train / test split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
@@ -52,8 +50,12 @@ if __name__ == "__main__":
         df = df.copy()
 
         ## Transform datetime into a number
-        df["ScheduledDay"] = pd.to_datetime(df["ScheduledDay"], yearfirst=True)
-        df["AppointmentDay"] = pd.to_datetime(df["AppointmentDay"], yearfirst=True)
+        df["ScheduledDay"] = pd.to_datetime(
+            df["ScheduledDay"], yearfirst=True, infer_datetime_format=True
+        )
+        df["AppointmentDay"] = pd.to_datetime(
+            df["AppointmentDay"], yearfirst=True, infer_datetime_format=True
+        )
 
         ## Get the difference between scheduled day and appointment
         df["time_difference_between_scheduled_and_appointment"] = (
